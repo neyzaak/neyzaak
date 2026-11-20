@@ -1,0 +1,49 @@
+name: Generate ASCII candidates
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  ascii:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -r requirements-ascii.txt
+      - run: curl -fsSL "https://avatars.githubusercontent.com/u/332807167?v=4&s=460" -o avatar.png
+      - name: Generate variants
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import subprocess, sys
+          import profilecard.ascii_art as a
+          path = Path(a.__file__)
+          src = path.read_text()
+          orig = "mask = cv2.resize(auto_fg[y0:y1, x0:x1].astype(float), size, interpolation=cv2.INTER_AREA)"
+          flip = "mask = 1 - cv2.resize(auto_fg[y0:y1, x0:x1].astype(float), size, interpolation=cv2.INTER_AREA)"
+          assert orig in src, "mask line not found"
+
+          def gen(name, extra, flipped):
+              path.write_text(src.replace(orig, flip) if flipped else src)
+              out = subprocess.check_output(
+                  [sys.executable, "-m", "profilecard", "ascii", "avatar.png", "--auto", *extra],
+                  text=True)
+              Path(name).write_text(out)
+              filled = sum(c != " " for line in out.splitlines() for c in line)
+              print(name, "filled:", filled)
+
+          gen("ascii-maskflip.txt", [], True)
+          gen("ascii-maskflip-invert.txt", ["--invert"], True)
+          gen("ascii-orig-invert.txt", ["--invert"], False)
+          path.write_text(src)
+          PY
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add ascii-*.txt
+          git diff --cached --quiet && { echo "No changes"; exit 0; }
+          git commit -m "chore: generate ASCII portrait candidates"
+          git push
