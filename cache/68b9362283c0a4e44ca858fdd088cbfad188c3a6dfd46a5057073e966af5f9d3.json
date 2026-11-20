@@ -1,0 +1,26 @@
+{
+  "17dc8debdaaea5136e40973c321af5146c815c1f9773461ca85ff8411a63b1fe": {
+    "additions": 405841,
+    "commits": 92,
+    "deletions": 176502,
+    "oid": "9fa6b439e1f5d04bbba1db616cfa4098f32057a6"
+  },
+  "2e0fa93ceb509b65607e574e3218b88ad7f4aae617db9bc3f53b55f5ba12caef": {
+    "additions": 15075,
+    "commits": 108,
+    "deletions": 3213,
+    "oid": "9ccf43b0d01f3fe1fec953066ba0a3d0a8e7c635"
+  },
+  "4bc3cf3baf8fd6e5de2411bbc97148bd60d02823be2551b80de932964ef99074": {
+    "additions": 13,
+    "commits": 1,
+    "deletions": 395,
+    "oid": "528c1caaa5e54bb863bab44664bcfde0679dbe03"
+  },
+  "d0fe4c256414e7699cf40afd09840e97e6e55fe4fc3d899a8b8c1c3f05518574": {
+    "additions": 17662,
+    "commits": 49,
+    "deletions": 519,
+    "oid": "e89952d268f29a4a0ff689815d065ec43d376fbf"
+  }
+}
