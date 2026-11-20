@@ -6,6 +6,7 @@ ascii: ascii.txt
 
 info:
   - Role: Vibe coder
+  - Uptime: "{uptime}"
   - Languages.Programming: JavaScript, TypeScript
   - Projects.Web: Next.js, React, PWA
   - ""
